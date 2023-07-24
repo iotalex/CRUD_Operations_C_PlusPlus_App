@@ -30,6 +30,12 @@ void AddRecord()
     cin.ignore();
     getline(cin, name);
 
+    // Validate input for name
+    while (name.empty() || !all_of(name.begin(), name.end(), ::isalpha)) {
+        cout << "Invalid response, please enter employee's name: ";
+        getline(cin, name);
+    }
+
     EmpID.push_back(empno);
     EmpName.push_back(name);
     maxrow = EmpID.size(); // update maxrow to reflect new size of vectors
