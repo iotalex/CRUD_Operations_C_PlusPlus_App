@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <limits>
+#include <algorithm>
+
 using namespace std;
 
 vector<string> EmpID;
@@ -39,6 +41,10 @@ void ListRecord()
     cout << "Current Record(s)" << endl;
     cout << "=================================" << endl;
 
+    // Sort employee records by name
+    vector<string> sortedEmpName = EmpName;
+    sort(sortedEmpName.begin(), sortedEmpName.end());
+
     int counter = 0;
     cout << " No.   |    ID     NAME    " << endl << "-----------------------------------\n";
     for (int x = 0; x < maxrow; x++)
@@ -46,7 +52,9 @@ void ListRecord()
         if (!EmpID[x].empty())
         {
             counter++;
-            cout << "   " << counter << "      " << EmpID[x] << "         " << EmpName[x] << endl;
+            // Find index of employee record in sortedEmpName vector
+            int index = find(EmpName.begin(), EmpName.end(), sortedEmpName[x]) - EmpName.begin();
+            cout << "   " << counter << "      " << EmpID[index] << "         " << sortedEmpName[x] << endl;
         }
     }
 }
