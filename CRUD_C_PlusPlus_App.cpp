@@ -1,37 +1,36 @@
 #include <iostream>
 #include <string>
-#include <fstream>
-
-
+#include <vector>
+#include <limits>
 using namespace std;
 
-const int maxrow = 10;
-
-string EmpName[maxrow] = {};
-string EmpID[maxrow] = {};
+vector<string> EmpID;
+vector<string> EmpName;
+int maxrow = 0; // declare and initialize maxrow variable
 
 void AddRecord()
 {
-    char name[50];
-    char empno[5];
+    string name;
+    string empno;
 
-    cin.ignore();
+    cout << "Employee ID: ";
+    cin >> empno;
 
-    cout << "Employee ID. ";
-    cin.getline(empno, 5);
-    cout << "Employee Name. ";
-    cin.getline(name, 50);
-
-    for (int x = 0; x < maxrow; x++)
-    {
-        if (EmpID[x] == "\0")
-        {
-            EmpID[x] = empno;
-            EmpName[x] = name;
-
-            break;
-        }
+    // Validate input for empno
+    while (cin.fail() || empno.find_first_not_of("0123456789") != string::npos) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Error: Please enter a valid employee ID (text only): ";
+        cin >> empno;
     }
+
+    cout << "Employee Name: ";
+    cin.ignore();
+    getline(cin, name);
+
+    EmpID.push_back(empno);
+    EmpName.push_back(name);
+    maxrow = EmpID.size(); // update maxrow to reflect new size of vectors
 }
 
 void ListRecord()
@@ -44,48 +43,56 @@ void ListRecord()
     cout << " No.   |    ID     NAME    " << endl << "-----------------------------------\n";
     for (int x = 0; x < maxrow; x++)
     {
-        if (EmpID[x] != "\0")
+        if (!EmpID[x].empty())
         {
             counter++;
             cout << "   " << counter << "      " << EmpID[x] << "         " << EmpName[x] << endl;
-
-            break;
         }
     }
-
 }
 
-int main () {
-    
-    std::cout << "What's your pleasure?\n";
-    int option;
-    system("CLS");
+int main()
+{
+    int choice;
 
-    do {
-        cout << "1-Create Records" << endl;
-        cout << "2-Read Records" << endl;
-        cout << "3-Update Records" << endl;
-        cout << "4-Delete Records" << endl;
-        cout << "5-Search all Records" << endl;
-        cout << "6-Exit & Save to Textfile" << endl;
-        cout << "==================================" << endl;
+    do
+    {
+        system("CLS");
+        cout << "Employee Record System" << endl;
+        cout << "=========================" << endl;
+        cout << "1. Create Record" << endl;
+        cout << "2. Display Record" << endl;
+        cout << "3. Update Record" << endl;
+        cout << "4. Delete Record" << endl;
+        cout << "5. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-        cout << "Select Option >>";
-        cin >> option;
-
-        switch (option)
+        switch (choice)
         {
-        case 1: AddRecord();
-            system("CLS");
+        case 1:
+            AddRecord();
             break;
-        
-        case 5: ListRecord();
+        case 2:
+            ListRecord();
+            break;
+        case 3:
+            // TODO: implement update record function
+            break;
+        case 4:
+            // TODO: implement delete record function
+            break;
+        case 5:
+            cout << "Exiting program..." << endl;
+            break;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
             break;
         }
 
-       
-    } while (option != 6);
-    //cin >> choice;
-      
-    
+        system("PAUSE");
+
+    } while (choice != 5);
+
+    return 0;
 }
