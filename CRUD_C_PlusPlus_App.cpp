@@ -51,6 +51,67 @@ void ListRecord()
     }
 }
 
+void DeleteRecord()
+{
+    system("CLS");
+    cout << "Delete Record" << endl;
+    cout << "=================================" << endl;
+
+    // Display list of employee IDs and names
+    cout << "Current Record(s)" << endl;
+    cout << "=================================" << endl;
+
+    int counter = 0;
+    cout << " No.   |    ID     NAME    " << endl << "-----------------------------------\n";
+    for (int x = 0; x < maxrow; x++)
+    {
+        if (!EmpID[x].empty())
+        {
+            counter++;
+            cout << "   " << counter << "      " << EmpID[x] << "         " << EmpName[x] << endl;
+        }
+    }
+
+    // Prompt user to enter employee ID to delete
+    string empno;
+    bool validEmpno = false;
+    do {
+        cout << "Enter employee ID to delete: ";
+        cin >> empno;
+
+        // Check if employee ID is valid
+        if (cin.fail() || empno.find_first_not_of("0123456789") != string::npos) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Error: Please enter a valid employee ID (text only)." << endl;
+        }
+        else {
+            int index = -1;
+            for (int i = 0; i < maxrow; i++)
+            {
+                if (EmpID[i] == empno)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index == -1)
+            {
+                cout << "Wrong Employee ID entered, please try again." << endl;
+            }
+            else
+            {
+                EmpID.erase(EmpID.begin() + index);
+                EmpName.erase(EmpName.begin() + index);
+                maxrow = EmpID.size(); // update maxrow to reflect new size of vectors
+                cout << "Employee record deleted successfully." << endl;
+                validEmpno = true;
+            }
+        }
+    } while (!validEmpno);
+}
+
 int main()
 {
     int choice;
@@ -80,7 +141,7 @@ int main()
             // TODO: implement update record function
             break;
         case 4:
-            // TODO: implement delete record function
+            DeleteRecord();
             break;
         case 5:
             cout << "Exiting program..." << endl;
