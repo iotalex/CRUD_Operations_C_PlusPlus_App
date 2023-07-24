@@ -51,6 +51,97 @@ void ListRecord()
     }
 }
 
+void UpdateRecord()
+{
+    system("CLS");
+    cout << "Update Record" << endl;
+    cout << "=================================" << endl;
+
+    // Display list of employee IDs and names
+    cout << "Current Record(s)" << endl;
+    cout << "=================================" << endl;
+
+    int counter = 0;
+    cout << " No.   |    ID     NAME    " << endl << "-----------------------------------\n";
+    for (int x = 0; x < maxrow; x++)
+    {
+        if (!EmpID[x].empty())
+        {
+            counter++;
+            cout << "   " << counter << "      " << EmpID[x] << "         " << EmpName[x] << endl;
+        }
+    }
+
+    // Prompt user to enter employee ID to update
+    string empno;
+    bool validEmpno = false;
+    do {
+        cout << "Enter employee ID to update: ";
+        cin >> empno;
+
+        // Check if employee ID is valid
+        if (cin.fail() || empno.find_first_not_of("0123456789") != string::npos) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Error: Please enter a valid employee ID (text only)." << endl;
+        }
+        else {
+            int index = -1;
+            for (int i = 0; i < maxrow; i++)
+            {
+                if (EmpID[i] == empno)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index == -1)
+            {
+                cout << "Error: Employee ID not found." << endl;
+            }
+            else
+            {
+                // Prompt user to enter new employee name
+                string name;
+                cout << "Enter new employee name: ";
+                cin.ignore();
+                getline(cin, name);
+
+                // Prompt user to update employee ID
+                string updateID;
+                cout << "Would you like to update the employee ID? (yes or no): ";
+                cin >> updateID;
+
+                if (updateID == "yes") {
+                    string newID;
+                    cout << "Enter new employee ID: ";
+                    cin >> newID;
+
+                    // Check if new employee ID is valid
+                    if (cin.fail() || newID.find_first_not_of("0123456789") != string::npos) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Error: Please enter a valid employee ID (text only)." << endl;
+                    }
+                    else {
+                        EmpID[index] = newID;
+                        cout << "Employee record updated successfully." << endl;
+                        validEmpno = true;
+                    }
+                }
+                else {
+                    EmpName[index] = name;
+                    cout << "Employee record updated successfully." << endl;
+                    validEmpno = true;
+                }
+            }
+        }
+    } while (!validEmpno);
+
+    system("PAUSE");
+}
+
 void DeleteRecord()
 {
     system("CLS");
@@ -138,7 +229,7 @@ int main()
             ListRecord();
             break;
         case 3:
-            // TODO: implement update record function
+            UpdateRecord();
             break;
         case 4:
             DeleteRecord();
