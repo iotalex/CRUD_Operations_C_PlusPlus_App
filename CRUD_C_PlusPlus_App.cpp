@@ -3,6 +3,7 @@
 #include <vector>
 #include <limits>
 #include <algorithm>
+#include "src/crud_functions.h"
 
 using namespace std;
 
@@ -223,6 +224,15 @@ int main()
 
     do
     {
+        // Add test data
+        EmpID.push_back("1001");
+        EmpName.push_back("John Smith");
+        EmpID.push_back("1002");
+        EmpName.push_back("Jane Doe");
+        EmpID.push_back("1003");
+        EmpName.push_back("Bob Johnson");
+        maxrow = 3;
+
         system("CLS");
         cout << "Employee Record System" << endl;
         cout << "=========================" << endl;
